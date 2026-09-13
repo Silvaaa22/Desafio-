@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Desafio de Amizade do Andrey</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    body {
+      background-color: #0f0f13;
+      color: #ffffff;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .card {
+      background: #1a1a24;
+      border: 2px solid #2e2e40;
+      border-radius: 16px;
+      padding: 30px;
+      max-width: 480px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    }
+    h1, h2 {
+      margin-top: 0;
+      line-height: 1.3;
+    }
+    .phase-title {
+      color: #00d26a;
+      font-size: 1.4rem;
+    }
+    .phase2-header {
+      color: #ff4757;
+      font-size: 1.2rem;
+    }
+    .success-header {
+      color: #ffda79;
+      font-size: 1.5rem;
+    }
+    .error-header {
+      color: #ff5252;
+      font-size: 2rem;
+      font-weight: bold;
+    }
+    .input-text {
+      width: 100%;
+      padding: 12px;
+      margin: 15px 0;
+      border-radius: 8px;
+      border: 1px solid #3d3d5c;
+      background: #0f0f13;
+      color: #fff;
+      font-size: 1rem;
+      text-align: center;
+    }
+    .btn {
+      background: #5f27cd;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.2s;
+      margin: 5px;
+    }
+    .btn:hover {
+      background: #341f97;
+    }
+    .btn-alt {
+      background: #576574;
+    }
+    .btn-alt:hover {
+      background: #222f3e;
+    }
+    .btn-danger {
+      background: #ff5252;
+    }
+    .btn-danger:hover {
+      background: #ff3f34;
+    }
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin: 20px 0;
+      text-align: left;
+    }
+    .option-btn {
+      background: #2e2e40;
+      border: 1px solid #484869;
+      padding: 12px 16px;
+      border-radius: 8px;
+      color: white;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: 0.2s;
+    }
+    .option-btn:hover {
+      background: #484869;
+    }
+    .option-btn.selected {
+      background: #5f27cd;
+      border-color: #00d26a;
+    }
+    .hidden {
+      display: none !important;
+    }
+    .error-msg {
+      color: #ff5252;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    .confirm-box {
+      background: #252538;
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 15px;
+      border: 1px dashed #5f27cd;
+    }
+    .link-btn {
+      display: inline-block;
+      text-decoration: none;
+      margin-top: 10px;
+    }
+    .session-box {
+      background: #0f0f13;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid #00d26a;
+      word-break: break-all;
+      font-family: monospace;
+      color: #00d26a;
+      font-size: 0.9rem;
+      margin: 15px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+
+    <!-- FASE 1 -->
+    <div id="phase1">
+      <h2 class="phase-title">Fase 1 🔒</h2>
+      <p>Você é mesmo amiga do Andrey? Então me diga...</p>
+      <p><strong>Em que dia, mês, e ano ele nasceu?</strong></p>
+      
+      <input type="text" id="dateInput" class="input-text" placeholder="DD/MM/AAAA" maxlength="10">
+      <button class="btn" onclick="checkPhase1()">Entrar</button>
+      
+      <div id="errorP1" class="error-msg hidden">Data incorreta! Você não conhece o Andrey de verdade. ❌</div>
+    </div>
+
+    <!-- FASE 2 -->
+    <div id="phase2" class="hidden">
+      <h2 class="phase2-header">
+        Meus parabéns! Você passou da fase 1. Isso prova que você é alguém que conhece meu mestre Andrey. Mas não prova que você é 100% amiga dele. 😡
+      </h2>
+      <hr style="border-color: #2e2e40; margin: 20px 0;">
+      
+      <p style="text-align: left;"><strong>1 - Se você conhece bem o Andrey, como ele chamou a última vez a sua irmã?</strong></p>
+      
+      <div class="options-container">
+        <button class="option-btn" onclick="selectOption('A')">(A) Thauanne</button>
+        <button class="option-btn" onclick="selectOption('B')">(B) THAYANNE</button>
+        <button class="option-btn" onclick="selectOption('C')">(C) THANARA</button>
+        <button class="option-btn" onclick="selectOption('D')">(D) TIARA</button>
+        <button class="option-btn" onclick="selectOption('E')">(E) THAYNARA</button>
+      </div>
+
+      <!-- Confirmação 1 (Fase 2) -->
+      <div id="confirmStep1_P2" class="confirm-box hidden">
+        <p>Você confirma a resposta?</p>
+        <button class="btn" onclick="handleConfirm1_P2(true)">Sim</button>
+        <button class="btn btn-alt" onclick="handleConfirm1_P2(false)">Não</button>
+      </div>
+
+      <!-- Confirmação 2 (Fase 2) -->
+      <div id="confirmStep2_P2" class="confirm-box hidden">
+        <p>Fecha nessa?</p>
+        <button class="btn" onclick="handleConfirm2_P2(true)">Sim</button>
+        <button class="btn btn-alt" onclick="handleConfirm2_P2(false)">Não</button>
+      </div>
+    </div>
+
+    <!-- FASE 3 -->
+    <div id="phase3" class="hidden">
+      <h1 class="success-header">MEUS PARABÉNS! VOCÊ PASSOU DA 2° FASE!!! 🤩</h1>
+      <hr style="border-color: #2e2e40; margin: 20px 0;">
+      
+      <p><strong>Qual é o ator preferido do Andrey?</strong></p>
+      <input type="text" id="actorInput" class="input-text" placeholder="Digite o nome aqui...">
+      
+      <button class="btn" id="submitP3Btn" onclick="startConfirmP3()">Responder</button>
+
+      <!-- Confirmação 1 (Fase 3) -->
+      <div id="confirmStep1_P3" class="confirm-box hidden">
+        <p>Você confirma a resposta?</p>
+        <button class="btn" onclick="handleConfirm1_P3(true)">Sim</button>
+        <button class="btn btn-alt" onclick="handleConfirm1_P3(false)">Não</button>
+      </div>
+
+      <!-- Confirmação 2 (Fase 3) -->
+      <div id="confirmStep2_P3" class="confirm-box hidden">
+        <p>Fecha nessa?</p>
+        <button class="btn" onclick="handleConfirm2_P3(true)">Sim</button>
+        <button class="btn btn-alt" onclick="handleConfirm2_P3(false)">Não</button>
+      </div>
+    </div>
+
+    <!-- TELA DE ERRO (PUNIÇÃO) -->
+    <div id="screenError" class="hidden">
+      <div class="error-header">❌ ❌ ❌</div>
+      <h2 style="color: #ff5252; margin-top: 15px;">RESPOSTA ERRADA!!!</h2>
+      <p>A AMIZADE DO ANDREY NÃO TOLERA ERROS!, POR CONTA DISSO IRÁ TER Q RETORNAR AO COMEÇO DO JOGO.</p>
+      
+      <a href="https://youtube.com/shorts/V4xTX7wzNB4?is=WLjZUuN0xNGkdLAQ" target="_blank" class="link-btn">
+        <button class="btn btn-danger">Ir para o castigo 🎬</button>
+      </a>
+    </div>
+
+    <!-- TELA FINAL (RECOMPENSA DE SUCESSO TOTAL) -->
+    <div id="finalScreen" class="hidden">
+      <h1 class="success-header">VOCÊ PROVOU QUE É 100% AMIGA DO ANDREY! 🎉🏆</h1>
+      
+      <p>Antes de qualquer coisa, assista a esse vídeo especial que preparei pra você:</p>
+      
+      <a href="https://youtube.com/shorts/6V7nWe_tuL8?is=7i73RTGTwOuZ9DVi" target="_blank" class="link-btn">
+        <button class="btn" style="background: #ff0000;">Assistir Vídeo Especial 🎬</button>
+      </a>
+
+      <hr style="border-color: #2e2e40; margin: 25px 0;">
+
+      <p>Nosso novo cantinho de conversa vai ser no aplicativo <strong>Session</strong>!</p>
+      
+      <a href="https://getsession.org/" target="_blank" class="link-btn">
+        <button class="btn btn-alt">Baixar o App Session 📲</button>
+      </a>
+
+      <p style="margin-top: 20px;">Baixe o aplicativo e me adicione usando o meu <strong>Session ID</strong> abaixo:</p>
+      
+      <div class="session-box" id="sessionCode">05ba0ec1d7f4a245f9f2333e2bc331125efc65308277a719291282011063f46637</div>
+      
+      <button class="btn" onclick="copySessionId()">Copiar Session ID 📋</button>
+    </div>
+
+  </div>
+
+  <script>
+    let selectedLetterP2 = null;
+
+    // FASE 1
+    function checkPhase1() {
+      const input = document.getElementById('dateInput').value.trim();
+      if (input === '03/12/2004') {
+        document.getElementById('phase1').classList.add('hidden');
+        document.getElementById('phase2').classList.remove('hidden');
+      } else {
+        document.getElementById('errorP1').classList.remove('hidden');
+      }
+    }
+
+    // FASE 2
+    function selectOption(letter) {
+      selectedLetterP2 = letter;
+      const buttons = document.querySelectorAll('.option-btn');
+      buttons.forEach(btn => btn.classList.remove('selected'));
+      event.target.classList.add('selected');
+
+      document.getElementById('confirmStep2_P2').classList.add('hidden');
+      document.getElementById('confirmStep1_P2').classList.remove('hidden');
+    }
+
+    function handleConfirm1_P2(isYes) {
+      if (isYes) {
+        document.getElementById('confirmStep1_P2').classList.add('hidden');
+        document.getElementById('confirmStep2_P2').classList.remove('hidden');
+      } else {
+        document.getElementById('confirmStep1_P2').classList.add('hidden');
+      }
+    }
+
+    function handleConfirm2_P2(isYes) {
+      if (isYes) {
+        if (selectedLetterP2 === 'D') {
+          document.getElementById('phase2').classList.add('hidden');
+          document.getElementById('phase3').classList.remove('hidden');
+        } else {
+          document.getElementById('phase2').classList.add('hidden');
+          document.getElementById('screenError').classList.remove('hidden');
+        }
+      } else {
+        document.getElementById('confirmStep2_P2').classList.add('hidden');
+      }
+    }
+
+    // FASE 3
+    function startConfirmP3() {
+      const input = document.getElementById('actorInput').value.trim();
+      if (!input) return;
+      
+      document.getElementById('submitP3Btn').classList.add('hidden');
+      document.getElementById('confirmStep2_P3').classList.add('hidden');
+      document.getElementById('confirmStep1_P3').classList.remove('hidden');
+    }
+
+    function handleConfirm1_P3(isYes) {
+      if (isYes) {
+        document.getElementById('confirmStep1_P3').classList.add('hidden');
+        document.getElementById('confirmStep2_P3').classList.remove('hidden');
+      } else {
+        document.getElementById('confirmStep1_P3').classList.add('hidden');
+        document.getElementById('submitP3Btn').classList.remove('hidden');
+      }
+    }
+
+    function handleConfirm2_P3(isYes) {
+      if (isYes) {
+        const input = document.getElementById('actorInput').value.trim().toLowerCase();
+        if (input === 'joe goldberg') {
+          document.getElementById('phase3').classList.add('hidden');
+          document.getElementById('finalScreen').classList.remove('hidden');
+        } else {
+          document.getElementById('phase3').classList.add('hidden');
+          document.getElementById('screenError').classList.remove('hidden');
+        }
+      } else {
+        document.getElementById('confirmStep2_P3').classList.add('hidden');
+        document.getElementById('submitP3Btn').classList.remove('hidden');
+      }
+    }
+
+    // COPIAR CÓDIGO FINAL
+    function copySessionId() {
+      const code = document.getElementById('sessionCode').innerText.trim();
+      navigator.clipboard.writeText(code);
+      alert('Session ID copiado com sucesso!');
+    }
+  </script>
+</body>
+  </html>
+  
